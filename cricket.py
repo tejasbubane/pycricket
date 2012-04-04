@@ -21,6 +21,10 @@
 import os
 import sys
 
+if sys.argv[1].lower() == 'scores':	num = -1
+
+if sys.argv[1].lower() == 'world':	num = 0
+
 if sys.argv[1].lower() == 'india':	num = 6
 
 if sys.argv[1].lower() == 'australia':	num = 2
@@ -37,7 +41,8 @@ if sys.argv[1].lower() == 'pakistan':	num = 7
 
 if sys.argv[1].lower() == 'new zealand':	num = 5
 
-os.system('wget --quiet http://www.espncricinfo.com/rss/content/feeds/news/'+str(num)+'.xml; mv '+str(num)+'.xml rss.xml')
+if num == -1:	os.system('wget --quiet http://www.espncricinfo.com/rss/livescores.xml; mv livescores.xml rss.xml')
+else:	os.system('wget --quiet http://www.espncricinfo.com/rss/content/feeds/news/'+str(num)+'.xml; mv '+str(num)+'.xml rss.xml')
 
 fp = open('rss.xml','r')
 data = fp.read()
@@ -47,6 +52,7 @@ while 1:
 	if s != -1:
 		e = data.find('</title>',s+6)
 		link = data[s+6:e]
+		link = link.replace('&amp;', '&')
 		print link
 	else:
 		break

@@ -1,12 +1,20 @@
 # Created by Tejas Bubane (tejasbubane@gmail.com)
 
-Readme for pycricket:
+Readme for pycricket-1.1:
 
 	This is a small python script that takes in a name of a country and
 pulls in the rss of the recent happenings in cricket related to that country
 from espncricinfo, parses the xml file to get the appropriate strings
 and displays the results.
 
+==== New Features ====
+1. Get live scores instantly..!!
+	python cricket.py scores
+
+2. Get global cricket news
+	python cricket.py world
+
+==== Old features ====
 Usage: Run in the terminal:
 
 	python cricket.py COUNTRY
@@ -22,6 +30,7 @@ replace country by any one of the following:
 	bangladesh
 	
 And get the latest news right into your terminal :)
+
 
 #	Any suggestions/bugs/queries:
 #  	Tejas Pramod Bubane (tejasbubane@gmail.com)
