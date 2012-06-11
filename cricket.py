@@ -1,4 +1,4 @@
-#							pycricket
+#						:::	  pycricket	 :::
 #		This is a small python script that takes in a name of a country and
 #		pulls in the rss of the recent happenings in cricket related to that country
 #		from espncricinfo, parses the xml file to get the appropriate strings
@@ -18,46 +18,43 @@
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
-import sys
+import urllib2
+from xml.dom import minidom
 
-if sys.argv[1].lower() == 'scores':	num = -1
+print('''
+		-1. Live Scores
+		0. World News
 
-if sys.argv[1].lower() == 'world':	num = 0
+	News specific to a country:	
+		1. England
+		2. Australia
+		3. South Africa
+		4. west Indies
+		5. New Zealand
+		6. India
+		7. Pakistan
+		8. Sri Lanka
 
-if sys.argv[1].lower() == 'india':	num = 6
+>>> Enter your choice: ''')
 
-if sys.argv[1].lower() == 'australia':	num = 2
-	
-if sys.argv[1].lower() == 'england':	num = 1
+num = input()
 
-if sys.argv[1].lower() == 'south africa':	num = 3
+if num == -1:
+	rss = urllib2.urlopen('http://www.espncricinfo.com/rss/livescores.xml').read()
+else:
+	rss = urllib2.urlopen('http://www.espncricinfo.com/rss/content/feeds/news/'+str(num)+'.xml').read()
 
-if sys.argv[1].lower() == 'sri lanka':	num = 8
+rssp = minidom.parseString(rss)
 
-if sys.argv[1].lower() == 'west indies':	num = 4
+titles = rssp.getElementsByTagName('title')
+links = rssp.getElementsByTagName('link')
 
-if sys.argv[1].lower() == 'pakistan':	num = 7
+for i in xrange(1, len(titles)):  # start from 1 to skip first title of espncricinfo
+	title = titles[i].childNodes[0].nodeValue
+	link = links[i].childNodes[0].nodeValue
+	print('\n%d. %s :: %s' %(i, title, link))
 
-if sys.argv[1].lower() == 'new zealand':	num = 5
 
-if num == -1:	os.system('wget --quiet http://www.espncricinfo.com/rss/livescores.xml; mv livescores.xml rss.xml')
-else:	os.system('wget --quiet http://www.espncricinfo.com/rss/content/feeds/news/'+str(num)+'.xml; mv '+str(num)+'.xml rss.xml')
-
-fp = open('rss.xml','r')
-data = fp.read()
-s = 0
-while 1:
-	s = data.find('<title>',s+1)
-	if s != -1:
-		e = data.find('</title>',s+6)
-		link = data[s+6:e]
-		link = link.replace('&amp;', '&')
-		print link
-	else:
-		break
-		
-os.system('rm rss.xml')
 
 #	Any suggestions/bugs/queries:
 #  	Tejas Pramod Bubane (tejasbubane@gmail.com)

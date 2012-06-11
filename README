@@ -1,11 +1,13 @@
 # Created by Tejas Bubane (tejasbubane@gmail.com)
 
-Readme for pycricket-1.1:
+Readme for pycricket-1.2:
 
 	This is a small python script that takes in a name of a country and
 pulls in the rss of the recent happenings in cricket related to that country
 from espncricinfo, parses the xml file to get the appropriate strings
 and displays the results.
+
+Links have been added in version 1.2. Links of the corresponding stories will appear in fromt of the title.
 
 ==== New Features ====
 1. Get live scores instantly..!!
